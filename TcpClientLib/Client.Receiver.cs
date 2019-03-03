@@ -53,6 +53,7 @@ namespace TcpClientLib
                                 var bytes = _stream.Read(b, 0, b.Length);
                                 var responseData = Encoding.UTF8.GetString(b, 0, bytes);
 
+                                //Don't need this logging since the subscriber to event MainDataReceived logs it out!
                                 //Log.Debug("Got a response from the server: " + responseData);
 
                                 // Raise the DataReceived event w/ data...

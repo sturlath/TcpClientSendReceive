@@ -25,11 +25,11 @@ namespace Console
             client.MainDataReceived += OnClient_MainDataReceived;
 
             //The same host/port as the server
-            await client.ConnectAsync("localhost", 14000); 
+            var connectResponse = await client.ConnectAsync("localhost", 14000); 
 
-            if (!client.IsConnected.Value)
+            if (!client.IsConnected)
             {
-                Log.Debug("Not connected... {ErrorMessage}", client.IsConnected.ErrorMessage);
+                Log.Debug("Not connected... {ErrorMessage}", connectResponse.ErrorMessage);
                 //Do your re-connect etc..
             }
 
@@ -38,7 +38,7 @@ namespace Console
             {
                 var data = $"Data from CLIENT number: {i.ToString()} ";
 
-                GenericResult<bool> wasDataSent = client.SendData(data);
+                GenericResult<bool> wasDataSent = await client.SendData(data).ConfigureAwait(false);
 
                 if (wasDataSent.Succeeded)
                 {

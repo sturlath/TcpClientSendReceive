@@ -2,6 +2,7 @@
 using System;
 using System.Net.Sockets;
 using System.Threading;
+using System.Threading.Tasks;
 using TcpClientLib.Helpers;
 
 namespace TcpClientLib
@@ -10,12 +11,12 @@ namespace TcpClientLib
     {
         private sealed class Sender
         {
-            internal GenericResult<bool> SendData(byte[] data)
+            internal async Task<GenericResult<bool>> SendData(byte[] data)
             {
                 try
                 {
                     // transition the data to the thread and send it...
-                    _stream.WriteAsync(data, 0, data.Length);
+                    await _stream.WriteAsync(data, 0, data.Length).ConfigureAwait(false);
 
                     return new GenericResult<bool>(true);
                 }

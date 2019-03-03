@@ -10,16 +10,17 @@ namespace TcpClientLib
     public sealed partial class Client : IDisposable
     {
         // Called by producers to send data over the socket.
-        public GenericResult<bool> SendData(string data)
+        public async Task<GenericResult<bool>> SendData(string data)
         {
             try
             {
-                return _sender.SendData(Encoding.ASCII.GetBytes(data));
+                return await _sender.SendData(Encoding.ASCII.GetBytes(data));
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                Log.Error(ex, "Error sending data to server in Client.{SendData}()", nameof(SendData));
-                return new GenericResult<bool>(ex);
+                throw;
+                //Log.Error(ex, "Error sending data to server in Client.{SendData}()", nameof(SendData));
+                //return new GenericResult<bool>(ex);
             }
         }
 
@@ -28,7 +29,7 @@ namespace TcpClientLib
         /// </summary>
         public event EventHandler<DataReceivedArgs> MainDataReceived;
 
-        public GenericResult<bool> IsConnected { get; set; }
+        public bool IsConnected { get { return _client.Connected; } }
 
         public Client()
         {
@@ -36,9 +37,9 @@ namespace TcpClientLib
 
         public async Task<GenericResult<bool>> ConnectAsync(string hostName, int port)
         {
-            IsConnected = await GetTcpClientReadyAsync(hostName, port);
+            var readyResponse = await GetTcpClientReadyAsync(hostName, port).ConfigureAwait(false);
 
-            if (IsConnected.Succeeded && IsConnected.Value == true)
+            if (_client.Connected)
             {
                 _stream = _client.GetStream();
                 _receiver = new Receiver(_stream);
@@ -47,7 +48,7 @@ namespace TcpClientLib
                 _receiver.DataReceived += OnDataReceived;
             }
 
-            return IsConnected;
+            return readyResponse;
         }
 
         private void OnDataReceived(object sender, DataReceivedArgs e)
@@ -63,14 +64,14 @@ namespace TcpClientLib
                 _client = new TcpClient();
             }
 
-            if (!_client.Client.Connected)
+            if (!_client.Connected)
             {
                 try
                 {
                     //TODO: Shorten timeout! Takes to long to get an error...
-                    await _client.ConnectAsync(hostName, port).ConfigureAwait(false);
+                    await _client.ConnectAsync(hostName, port);
 
-                    return new GenericResult<bool>(true);
+                    return new GenericResult<bool>(_client.Connected);
                 }
                 catch (Exception ex)
                 {
@@ -78,7 +79,7 @@ namespace TcpClientLib
                 }
             }
 
-            return new GenericResult<bool>(true);
+            return new GenericResult<bool>(_client.Connected);
         }
 
         public void Dispose()

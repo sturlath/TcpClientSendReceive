@@ -26,15 +26,15 @@ namespace WindowsForms
             //WindowsFormsSynchronizationContext.SetSynchronizationContext(new WindowsFormsSynchronizationContext());
             //WindowsFormsSynchronizationContext.AutoInstall = false;
         }
-        private void btnConnectToService_Click(object sender, EventArgs e)
+        private async void btnConnectToService_Click(object sender, EventArgs e)
         {
-            client.ConnectAsync(txtIpAddress.Text, Convert.ToInt32(txtPort.Text));
+            var connectResponse = await client.ConnectAsync(txtIpAddress.Text, Convert.ToInt32(txtPort.Text));
 
             // Check if the client failed to connect to the server
-            if (!client.IsConnected.Value)
+            if (!client.IsConnected)
             {
-                txbResponseFromServer.AppendText("\r\n" + client.IsConnected.ErrorMessage);
-                Log.Debug("Not connected... {ErrorMessage}", client.IsConnected.ErrorMessage);
+                txbResponseFromServer.AppendText("\r\n" + connectResponse.ErrorMessage);
+                Log.Debug("Not connected... {ErrorMessage}", connectResponse.ErrorMessage);
                 //Do your re-connect etc..
             }
         }
@@ -46,10 +46,10 @@ namespace WindowsForms
             txbResponseFromServer.AppendText(e.Data);
         }
 
-        private void btnSendData_Click(object sender, EventArgs e)
+        private async void btnSendData_Click(object sender, EventArgs e)
         {
             // This call does not fire the MainDataReceived event in WinForms but does in the console app!
-            GenericResult<bool> test = client.SendData(txtDataToSend.Text);
+            GenericResult<bool> test = await client.SendData(txtDataToSend.Text);
         }
     }
 }

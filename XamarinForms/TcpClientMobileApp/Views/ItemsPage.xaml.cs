@@ -33,26 +33,31 @@ namespace TcpClientMobileApp.Views
 
         async void Connect_Clicked(object sender, EventArgs e)
         {
-            var success = await Client.ConnectAsync(entryIPAddress.Text, Convert.ToInt32(entryPort.Text));
+            var connectResponse = await Client.ConnectAsync(entryIPAddress.Text, Convert.ToInt32(entryPort.Text));
 
-            if(success.HasError)
+            if(connectResponse.Succeeded && connectResponse.HasError)
             {
-                await DisplayAlert("Error", success.ErrorMessage, ":-(");
+                await DisplayAlert("Error", connectResponse.ErrorMessage, ":-(");
             }
         }
 
-        void SendData_Clicked(object sender, EventArgs e)
+        async void SendData_Clicked(object sender, EventArgs e)
         {
-            if (Client.IsConnected.Value)
+            if (Client.IsConnected)
             {
-                GenericResult<bool> test = Client.SendData("TEST DATA");
+                var sendResponse = await Client.SendData("TEST DATA");
+
+                if (sendResponse.Succeeded && sendResponse.HasError)
+                {
+                    await DisplayAlert("Error", sendResponse.ErrorMessage, ":-(");
+                }
             }
         }
 
-        private void OnClient_MainDataReceived(object sender, DataReceivedArgs e)
+        private async void OnClient_MainDataReceived(object sender, DataReceivedArgs e)
         {
-            // Success! It got called!!
-            throw new NotImplementedException();
+            await DisplayAlert("Success","Success! It got called!!", ":-)");
+
         }
 
     }
