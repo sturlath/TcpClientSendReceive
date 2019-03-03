@@ -21,7 +21,7 @@ namespace Console
             System.Threading.Thread.Sleep(1000);
 
             var client = new Client("localhost", 14000);
-            client.MainDataReceived += OnClient_MainDataReceivedThatWorks;
+            client.MainDataReceived += OnClient_MainDataReceived;
 
             if (!client.IsConnected.Value)
             {
@@ -32,7 +32,7 @@ namespace Console
             //Generate some data
             for (var i = 0; i < 100; i++)
             {
-                var data = Encoding.ASCII.GetBytes($"Data from CLIENT number: {i.ToString()} ");
+                var data = $"Data from CLIENT number: {i.ToString()} ";
 
                 GenericResult<bool> wasDataSent = client.SendData(data);
 
@@ -48,7 +48,7 @@ namespace Console
             }
         }
 
-        private static void OnClient_MainDataReceivedThatWorks(object sender, DataReceivedArgs e)
+        private static void OnClient_MainDataReceived(object sender, DataReceivedArgs e)
         {
             Log.Debug("Data from Server: {data}", e.Data);
         }

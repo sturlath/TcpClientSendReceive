@@ -1,6 +1,7 @@
 ﻿using Serilog;
 using System;
 using System.Net.Sockets;
+using System.Text;
 using TcpClientLib.Helpers;
 
 namespace TcpClientLib
@@ -8,11 +9,11 @@ namespace TcpClientLib
     public sealed partial class Client : IDisposable
     {
         // Called by producers to send data over the socket.
-        public GenericResult<bool> SendData(byte[] data)
+        public GenericResult<bool> SendData(string data)
         {
             try
             {
-                return _sender.SendData(data);
+                return _sender.SendData(Encoding.ASCII.GetBytes(data));
             }
             catch (Exception ex)
             {
@@ -21,7 +22,9 @@ namespace TcpClientLib
             }
         }
 
-        // Consumers register to receive data.
+        /// <summary>
+        ///  Consumers register to receive data.
+        /// </summary>
         public event EventHandler<DataReceivedArgs> MainDataReceived;
 
         public GenericResult<bool> IsConnected { get; set; }
