@@ -39,6 +39,7 @@
             this.label3 = new System.Windows.Forms.Label();
             this.txtPort = new System.Windows.Forms.TextBox();
             this.panel2 = new System.Windows.Forms.Panel();
+            this.label2 = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             this.SuspendLayout();
@@ -90,10 +91,10 @@
             // 
             // txbResponseFromServer
             // 
-            this.txbResponseFromServer.Location = new System.Drawing.Point(230, 19);
+            this.txbResponseFromServer.Location = new System.Drawing.Point(230, 36);
             this.txbResponseFromServer.Multiline = true;
             this.txbResponseFromServer.Name = "txbResponseFromServer";
-            this.txbResponseFromServer.Size = new System.Drawing.Size(565, 526);
+            this.txbResponseFromServer.Size = new System.Drawing.Size(565, 509);
             this.txbResponseFromServer.TabIndex = 6;
             // 
             // lblIpAddress
@@ -142,16 +143,26 @@
             this.panel2.Size = new System.Drawing.Size(192, 131);
             this.panel2.TabIndex = 12;
             // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(230, 13);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(122, 13);
+            this.label2.TabIndex = 13;
+            this.label2.Text = "Resonse from the server";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 557);
+            this.Controls.Add(this.label2);
             this.Controls.Add(this.txbResponseFromServer);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.panel2);
             this.Name = "Form1";
-            this.Text = "Form1";
+            this.Text = "TcpClient Tester";
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             this.panel2.ResumeLayout(false);
@@ -174,6 +185,7 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.TextBox txtPort;
         private System.Windows.Forms.Panel panel2;
+        private System.Windows.Forms.Label label2;
     }
 }
 
