@@ -3,7 +3,16 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="TcpClientMobileApp.Views.MenuPage"
              Title="Menu">
-    <StackLayout VerticalOptions="FillAndExpand">
+	<ContentPage.ToolbarItems>
+		<ToolbarItem Text="Clear" Command="{Binding SendDataCommand}" >
+			<ToolbarItem.Icon>
+				<OnPlatform x:TypeArguments="FileImageSource">
+					<On Platform="UWP" Value="clear.png"/>
+				</OnPlatform>
+			</ToolbarItem.Icon>
+		</ToolbarItem>
+	</ContentPage.ToolbarItems>
+	<StackLayout VerticalOptions="FillAndExpand">
         <ListView x:Name="ListViewMenu"
                     HasUnevenRows="True">
             <ListView.ItemTemplate>

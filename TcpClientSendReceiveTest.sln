@@ -13,17 +13,17 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServerConsole", "ServerCons
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "XamarinForms", "XamarinForms", "{14011ACB-8462-4E36-BC50-8912A1F3D0FB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TcpClientMobileApp.Android", "XamarinForms\TcpClientMobileApp\TcpClientMobileApp.Android\TcpClientMobileApp.Android.csproj", "{24CE3C36-16B9-426D-AA0C-5961ECF8D88C}"
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "TcpClientMobileApp", "XamarinForms\TcpClientMobileApp\TcpClientMobileApp.shproj", "{7DA902C6-D495-414B-A868-30B27E3F70E5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TcpClientMobileApp.UWP", "XamarinForms\TcpClientMobileApp\TcpClientMobileApp.UWP\TcpClientMobileApp.UWP.csproj", "{D3AE0A86-5C0D-409A-BAD0-BF2B6D64FDE2}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TcpClientMobileApp.Android", "XamarinForms\TcpClientMobileApp.Android\TcpClientMobileApp.Android.csproj", "{24CE3C36-16B9-426D-AA0C-5961ECF8D88C}"
 EndProject
-Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "TcpClientMobileApp", "XamarinForms\TcpClientMobileApp\TcpClientMobileApp\TcpClientMobileApp.shproj", "{7DA902C6-D495-414B-A868-30B27E3F70E5}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TcpClientMobileApp.UWP", "XamarinForms\TcpClientMobileApp.UWP\TcpClientMobileApp.UWP.csproj", "{D3AE0A86-5C0D-409A-BAD0-BF2B6D64FDE2}"
 EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
-		XamarinForms\TcpClientMobileApp\TcpClientMobileApp\TcpClientMobileApp.projitems*{24ce3c36-16b9-426d-aa0c-5961ecf8d88c}*SharedItemsImports = 4
-		XamarinForms\TcpClientMobileApp\TcpClientMobileApp\TcpClientMobileApp.projitems*{7da902c6-d495-414b-a868-30b27e3f70e5}*SharedItemsImports = 13
-		XamarinForms\TcpClientMobileApp\TcpClientMobileApp\TcpClientMobileApp.projitems*{d3ae0a86-5c0d-409a-bad0-bf2b6d64fde2}*SharedItemsImports = 4
+		XamarinForms\TcpClientMobileApp\TcpClientMobileApp.projitems*{24ce3c36-16b9-426d-aa0c-5961ecf8d88c}*SharedItemsImports = 4
+		XamarinForms\TcpClientMobileApp\TcpClientMobileApp.projitems*{7da902c6-d495-414b-a868-30b27e3f70e5}*SharedItemsImports = 13
+		XamarinForms\TcpClientMobileApp\TcpClientMobileApp.projitems*{d3ae0a86-5c0d-409a-bad0-bf2b6d64fde2}*SharedItemsImports = 4
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -149,9 +149,9 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
+		{7DA902C6-D495-414B-A868-30B27E3F70E5} = {14011ACB-8462-4E36-BC50-8912A1F3D0FB}
 		{24CE3C36-16B9-426D-AA0C-5961ECF8D88C} = {14011ACB-8462-4E36-BC50-8912A1F3D0FB}
 		{D3AE0A86-5C0D-409A-BAD0-BF2B6D64FDE2} = {14011ACB-8462-4E36-BC50-8912A1F3D0FB}
-		{7DA902C6-D495-414B-A868-30B27E3F70E5} = {14011ACB-8462-4E36-BC50-8912A1F3D0FB}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {7C248BF8-0519-4A59-AD0E-C9FCC9D5359E}

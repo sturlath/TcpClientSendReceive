@@ -2,17 +2,17 @@
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using TcpClientMobileApp.Views;
+using TcpClientLib;
+using TcpClientLib.Helpers;
 
 [assembly: XamlCompilation(XamlCompilationOptions.Compile)]
 namespace TcpClientMobileApp
 {
     public partial class App : Application
     {
-
         public App()
         {
             InitializeComponent();
-
 
             MainPage = new MainPage();
         }

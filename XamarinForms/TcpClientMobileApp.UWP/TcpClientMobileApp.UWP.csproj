@@ -149,7 +149,13 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Xamarin.Forms" Version="3.4.0.1008975" />
-    <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform" Version="6.1.5"/>
+    <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform" Version="6.1.5" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\TcpClientLib\TcpClientLib.csproj">
+      <Project>{e679a55f-ce08-4f85-978a-9e9ca8b2d53b}</Project>
+      <Name>TcpClientLib</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="..\TcpClientMobileApp\TcpClientMobileApp.projitems" Label="Shared" />
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">

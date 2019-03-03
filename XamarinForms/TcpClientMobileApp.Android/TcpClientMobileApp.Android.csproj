@@ -92,6 +92,12 @@
     <Folder Include="Resources\drawable-xxhdpi\" />
     <Folder Include="Resources\drawable-xxxhdpi\" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\TcpClientLib\TcpClientLib.csproj">
+      <Project>{e679a55f-ce08-4f85-978a-9e9ca8b2d53b}</Project>
+      <Name>TcpClientLib</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="..\TcpClientMobileApp\TcpClientMobileApp.projitems" Label="Shared" />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
 </Project>

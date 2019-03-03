@@ -33,7 +33,7 @@ namespace TcpClientLib
         {
         }
 
-        public void Connect(string hostName, int port)
+        public GenericResult<bool> Connect(string hostName, int port)
         {
             IsConnected = GetTcpClientReady(hostName, port);
 
@@ -45,6 +45,8 @@ namespace TcpClientLib
 
                 _receiver.DataReceived += OnDataReceived;
             }
+
+            return IsConnected;
         }
 
         private void OnDataReceived(object sender, DataReceivedArgs e)

@@ -4,12 +4,16 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
+using TcpClientLib;
+using TcpClientLib.Helpers;
 
 namespace TcpClientMobileApp.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class MainPage : MasterDetailPage
     {
+
+
         Dictionary<int, NavigationPage> MenuPages = new Dictionary<int, NavigationPage>();
         public MainPage()
         {
@@ -18,7 +22,10 @@ namespace TcpClientMobileApp.Views
             MasterBehavior = MasterBehavior.Popover;
 
             MenuPages.Add((int)MenuItemType.Browse, (NavigationPage)Detail);
+
+
         }
+
 
         public async Task NavigateFromMenu(int id)
         {
@@ -28,9 +35,6 @@ namespace TcpClientMobileApp.Views
                 {
                     case (int)MenuItemType.Browse:
                         MenuPages.Add(id, new NavigationPage(new ItemsPage()));
-                        break;
-                    case (int)MenuItemType.About:
-                        MenuPages.Add(id, new NavigationPage(new AboutPage()));
                         break;
                 }
             }

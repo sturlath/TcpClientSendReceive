@@ -4,6 +4,9 @@ using System.Collections.Generic;
 
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
+using System.Windows.Input;
+using TcpClientLib;
+using TcpClientLib.Helpers;
 
 namespace TcpClientMobileApp.Views
 {
@@ -33,6 +36,14 @@ namespace TcpClientMobileApp.Views
                 var id = (int)((HomeMenuItem)e.SelectedItem).Id;
                 await RootPage.NavigateFromMenu(id);
             };
+
+        }
+
+        private ICommand sendDataCommand;
+        public ICommand SendDataCommand => sendDataCommand ?? (sendDataCommand = new Command(() => ExecuteClearListCommand()));
+
+        private void ExecuteClearListCommand()
+        {
         }
     }
 }
