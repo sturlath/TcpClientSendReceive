@@ -49,22 +49,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Client.cs" />
-    <Compile Include="Client.Receiver.cs">
-      <DependentUpon>Client.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Client.Sender.cs">
-      <DependentUpon>Client.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Helpers\DataReceivedArgs.cs" />
-    <Compile Include="Helpers\GenericResult.cs" />
-    <Compile Include="Helpers\StateObject.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\TcpClientLib\TcpClientLib.csproj">
+      <Project>{e679a55f-ce08-4f85-978a-9e9ca8b2d53b}</Project>
+      <Name>TcpClientLib</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

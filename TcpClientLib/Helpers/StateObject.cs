@@ -1,7 +1,7 @@
 ﻿using System.Net.Sockets;
 using System.Text;
 
-namespace TcpClientSendReceiveTest.Helpers
+namespace TcpClientLib.Helpers
 {
     /// <summary>
     ///  State object for receiving data from remote device. 

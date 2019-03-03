@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace TcpClientSendReceiveTest.Helpers
+namespace TcpClientLib.Helpers
 {
     public class DataReceivedArgs : EventArgs
     {

@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Serilog" Version="2.8.0" />
+    <PackageReference Include="Serilog.Sinks.Console" Version="3.1.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Client.Receiver.cs">
+      <DependentUpon>Client.cs</DependentUpon>
+    </Compile>
+    <Compile Update="Client.Sender.cs">
+      <DependentUpon>Client.cs</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+</Project>

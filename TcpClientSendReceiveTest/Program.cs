@@ -1,8 +1,9 @@
 ﻿using Serilog;
 using System.Text;
-using TcpClientSendReceiveTest.Helpers;
+using TcpClientLib;
+using TcpClientLib.Helpers;
 
-namespace TcpClientProgram
+namespace Console
 {
     internal class Program
     {

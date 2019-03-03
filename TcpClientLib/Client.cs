@@ -1,11 +1,11 @@
 ﻿using Serilog;
 using System;
 using System.Net.Sockets;
-using TcpClientSendReceiveTest.Helpers;
+using TcpClientLib.Helpers;
 
-namespace TcpClientProgram
+namespace TcpClientLib
 {
-    internal sealed partial class Client : IDisposable
+    public sealed partial class Client : IDisposable
     {
         // Called by producers to send data over the socket.
         public GenericResult<bool> SendData(byte[] data)

@@ -4,11 +4,11 @@ using System.IO;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading;
-using TcpClientSendReceiveTest.Helpers;
+using TcpClientLib.Helpers;
 
-namespace TcpClientProgram
+namespace TcpClientLib
 {
-    internal sealed partial class Client
+    public sealed partial class Client
     {
         private sealed class Receiver
         {
