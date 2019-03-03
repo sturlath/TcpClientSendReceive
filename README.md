@@ -3,6 +3,11 @@ TcpClient comunication client that sends data on one thread and listening on ano
 
 This is basically a copy of [Matt Davis implementation on StackOverflow](https://stackoverflow.com/a/20698153/1187583) with lots of added stuff.
 
+# Whats in it?
+1. ServerConsole that listens for client communication.
+2. ClienConsole program that sends data to the server and listens for responses.
+3. TcpClientLib that contains all the connection logic.
+4. WinForms project to manually connect and fire data to the server.
 
 # How to run?
 There are two ways you can run this.
@@ -11,9 +16,9 @@ There are two ways you can run this.
 2. Run up WinForms and TcpServerProgram and you'll see the same.
 
 # Known problems at the moment
-1. All the data I'm sending to the service gets concatinated into one big (1024 byte) string. This is something I was going to research with the WinForms project.
+1. All the data I'm sending to the service gets concatenated into one big (1024 byte) string. This is something I was going to research with the WinForms project.
 
 2. If I run the WinForms client I can´t get the UI to update with data. That is probably because of some threading issues that should be possible to fix with some async stuff.
 
 ## Want to help me?
-I would appriciate all the help/pointers you can offer!
+I would appreciate all the help/pointers you can offer!
