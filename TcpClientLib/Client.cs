@@ -14,13 +14,12 @@ namespace TcpClientLib
         {
             try
             {
-                return await _sender.SendData(Encoding.ASCII.GetBytes(data));
+                return await _sender.SendData(Encoding.ASCII.GetBytes(data)).ConfigureAwait(false);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                throw;
-                //Log.Error(ex, "Error sending data to server in Client.{SendData}()", nameof(SendData));
-                //return new GenericResult<bool>(ex);
+                Log.Error(ex, "Error sending data to server in Client.{SendData}()", nameof(SendData));
+                return new GenericResult<bool>(ex);
             }
         }
 
@@ -69,7 +68,7 @@ namespace TcpClientLib
                 try
                 {
                     //TODO: Shorten timeout! Takes to long to get an error...
-                    await _client.ConnectAsync(hostName, port);
+                    await _client.ConnectAsync(hostName, port).ConfigureAwait(false);
 
                     return new GenericResult<bool>(_client.Connected);
                 }

@@ -13,12 +13,22 @@ namespace TcpClientLib
         {
             internal async Task<GenericResult<bool>> SendData(byte[] data)
             {
+                var response = new GenericResult<bool>(true);
+
                 try
                 {
-                    // transition the data to the thread and send it...
-                    await _stream.WriteAsync(data, 0, data.Length).ConfigureAwait(false);
+                    if (_stream.CanWrite)
+                    {
+                        // transition the data to the thread and send it...
+                        await _stream.WriteAsync(data, 0, data.Length).ConfigureAwait(false);
+                    }
+                    else
+                    {
+                        response.Succeeded = false;
+                        response.ErrorMessage = "Couldn't write to NetworkStream (_stream)";
+                    }
 
-                    return new GenericResult<bool>(true);
+                    return response;
                 }
                 catch (Exception ex)
                 {

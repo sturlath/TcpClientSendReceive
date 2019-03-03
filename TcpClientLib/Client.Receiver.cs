@@ -71,14 +71,14 @@ namespace TcpClientLib
                         catch (IOException ex)
                         {
                             Log.Error(ex, "Error (IOException) receiving from server");
-                            //TOOD: Do some more handling
+                            throw new Exception($"IOException in Client.Receiver: {ex.Message}");
                         }
                     }
                 }
                 catch (Exception ex)
                 {
                     Log.Error(ex, "Error receiving from server");
-                    //TOOD: Do some more handling
+                    throw new Exception($"Exception in Client.Receiver: {ex.Message}");
                 }
                 finally
                 {
