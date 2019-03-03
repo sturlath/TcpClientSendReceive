@@ -21,7 +21,7 @@ There are two ways you can run this.
 2. If I run the WinForms client I can´t get the UI to update with data. That is probably because of some threading issues that should be possible to fix with some async stuff. See [Bug '[WinForms] Client.Receiver.DataAvailable is never true after SendData '](https://github.com/sturlath/TcpClientSendReceive/issues/1)
 
 ## Want to help me?
-I would appreciate all the help/pointers you can offer!
+I would **REALLY** appreciate all the help/pointers you can offer!
 
 ## Here is an image of the beautiful WinForms Client 
 
