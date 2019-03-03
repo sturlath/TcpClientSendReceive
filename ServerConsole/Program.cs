@@ -79,6 +79,7 @@ namespace TcpServerProgram
                 while (true)
                 {
                     var message = reader.ReadString();
+
                     Log.Debug("Server got this message from client: {message}", message);
 
                     foreach (TcpClient client in Program.GetClients())
@@ -97,6 +98,14 @@ namespace TcpServerProgram
             {
                 Log.Error($"IOException reading from {clientSocket.Client.RemoteEndPoint}: {e.Message}");
                 Console.WriteLine();
+            }
+            catch (ObjectDisposedException e)
+            {
+                Log.Error(e, "Error (ObjectDisposedException) receiving from server");
+            }
+            catch (Exception e)
+            {
+                Log.Error(e, "Error receiving from server");
             }
 
             clientSocket.Close();

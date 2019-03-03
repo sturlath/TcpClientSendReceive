@@ -20,8 +20,10 @@ namespace Console
             //Give the Server some time to start up
             System.Threading.Thread.Sleep(1000);
 
-            var client = new Client("localhost", 14000);
+            var client = new Client();
             client.MainDataReceived += OnClient_MainDataReceived;
+
+            client.Connect("localhost", 14000); 
 
             if (!client.IsConnected.Value)
             {

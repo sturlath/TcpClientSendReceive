@@ -8,7 +8,7 @@ namespace WindowsForms
 {
     public partial class Form1 : Form
     {
-        public Client client;
+        public static Client client;
 
         public Form1()
         {
@@ -19,12 +19,16 @@ namespace WindowsForms
             .CreateLogger();
 
             InitializeComponent();
-        }
 
+            client = new Client();
+            client.MainDataReceived += OnClient_MainDataReceived;
+
+            //WindowsFormsSynchronizationContext.SetSynchronizationContext(new WindowsFormsSynchronizationContext());
+            //WindowsFormsSynchronizationContext.AutoInstall = false;
+        }
         private void btnConnectToService_Click(object sender, EventArgs e)
         {
-            client = new Client(txtIpAddress.Text, Convert.ToInt32(txtPort.Text));
-            client.MainDataReceived += OnClient_MainDataReceived;
+            client.Connect(txtIpAddress.Text, Convert.ToInt32(txtPort.Text));
 
             if (!client.IsConnected.Value)
             {

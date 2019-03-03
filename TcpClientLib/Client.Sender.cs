@@ -15,7 +15,7 @@ namespace TcpClientLib
                 try
                 {
                     // transition the data to the thread and send it...
-                    _stream.Write(data, 0, data.Length);
+                    _stream.WriteAsync(data, 0, data.Length);
 
                     return new GenericResult<bool>(true);
                 }

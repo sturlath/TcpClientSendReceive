@@ -58,7 +58,7 @@ namespace TcpClientLib
                                 // Raise the DataReceived event w/ data...
 
                                 OnDataReceived(this, new DataReceivedArgs(responseData));
-                                //or just  DataReceivedThatWorks?.Invoke(this,  new DataReceivedArgs(responseData));
+                                //or just  DataReceived?.Invoke(this,  new DataReceivedArgs(responseData));
                             }
                             else
                             {

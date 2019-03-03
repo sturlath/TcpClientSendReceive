@@ -68,6 +68,7 @@
             this.txtDataToSend.Name = "txtDataToSend";
             this.txtDataToSend.Size = new System.Drawing.Size(132, 20);
             this.txtDataToSend.TabIndex = 2;
+            this.txtDataToSend.Text = "test data";
             // 
             // btnSendData
             // 

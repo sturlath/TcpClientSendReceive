@@ -29,7 +29,11 @@ namespace TcpClientLib
 
         public GenericResult<bool> IsConnected { get; set; }
 
-        public Client(string hostName, int port)
+        public Client()
+        {
+        }
+
+        public void Connect(string hostName, int port)
         {
             IsConnected = GetTcpClientReady(hostName, port);
 
