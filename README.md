@@ -12,8 +12,8 @@ This is basically a copy of [Matt Davis implementation on StackOverflow](https:/
 # How to run?
 There are two ways you can run this.
 
-1. Run up Console and TcpServerProgram and you will see data flow between each other.
-2. Run up WinForms and TcpServerProgram and you'll see the same.
+1. Run up **ClienConsole** and **ServerConsole** and you will see data flow between each other.
+2. Run up **WinForms** and **ServerConsole** and you'll see the same.
 
 # Known problems at the moment
 1. All the data I'm sending to the service gets concatenated into one big (1024 byte) string. This is something I was going to research with the WinForms project.
