@@ -18,7 +18,7 @@ There are two ways you can run this.
 # Known problems at the moment
 1. All the data I'm sending to the service gets concatenated into one big (1024 byte) string. This is something I was going to research with the WinForms project.
 
-2. If I run the WinForms client I can´t get the UI to update with data. That is probably because of some threading issues that should be possible to fix with some async stuff. See [bug](https://github.com/sturlath/TcpClientSendReceive/issues/1)
+2. If I run the WinForms client I can´t get the UI to update with data. That is probably because of some threading issues that should be possible to fix with some async stuff. See [Bug '[WinForms] Client.Receiver.DataAvailable is never true after SendData '](https://github.com/sturlath/TcpClientSendReceive/issues/1)
 
 ## Want to help me?
 I would appreciate all the help/pointers you can offer!
