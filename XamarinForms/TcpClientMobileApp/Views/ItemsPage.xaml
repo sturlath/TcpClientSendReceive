@@ -4,10 +4,17 @@
              x:Class="TcpClientMobileApp.Views.ItemsPage"
               Title="{Binding Title}"
              x:Name="BrowseItemsPage">
-	
+
 	<ContentPage.ToolbarItems>
 		<ToolbarItem Text="Connect" Clicked="Connect_Clicked"/>
 		<ToolbarItem Text="SendData" Clicked="SendData_Clicked"/>
 	</ContentPage.ToolbarItems>
 
+	<StackLayout>
+		<Label Text="IP" />
+		<Entry x:Name="entryIPAddress" Placeholder="IP Address" />
+
+		<Label Text="PORT" />
+		<Entry x:Name="entryPort" Placeholder="Port"  Text="14000"/>
+	</StackLayout>
 </ContentPage>

@@ -28,18 +28,16 @@ namespace TcpClientMobileApp.Views
             BindingContext = viewModel = new ItemsViewModel();
 
             Client = new Client();
-            Client.Connect("127.0.0.1", 8005);
-
             Client.MainDataReceived += OnClient_MainDataReceived;
         }
 
-        void Connect_Clicked(object sender, EventArgs e)
+        async void Connect_Clicked(object sender, EventArgs e)
         {
-            var success = Client.Connect("127.0.0.1", 8005);
+            var success = await Client.ConnectAsync(entryIPAddress.Text, Convert.ToInt32(entryPort.Text));
 
             if(success.HasError)
             {
-                DisplayAlert("Error", success.ErrorMessage, ":-(");
+                await DisplayAlert("Error", success.ErrorMessage, ":-(");
             }
         }
 

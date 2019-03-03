@@ -2,6 +2,7 @@
 using System;
 using System.Net.Sockets;
 using System.Text;
+using System.Threading.Tasks;
 using TcpClientLib.Helpers;
 
 namespace TcpClientLib
@@ -33,9 +34,9 @@ namespace TcpClientLib
         {
         }
 
-        public GenericResult<bool> Connect(string hostName, int port)
+        public async Task<GenericResult<bool>> ConnectAsync(string hostName, int port)
         {
-            IsConnected = GetTcpClientReady(hostName, port);
+            IsConnected = await GetTcpClientReadyAsync(hostName, port);
 
             if (IsConnected.Succeeded && IsConnected.Value == true)
             {
@@ -55,7 +56,7 @@ namespace TcpClientLib
             if (handler != null) MainDataReceived(this, e);  // re-raise event
         }
 
-        private GenericResult<bool> GetTcpClientReady(string hostName, int port)
+        private async Task<GenericResult<bool>> GetTcpClientReadyAsync(string hostName, int port)
         {
             if (_client == null)
             {
@@ -66,7 +67,8 @@ namespace TcpClientLib
             {
                 try
                 {
-                    _client.Connect(hostName, port);
+                    //TODO: Shorten timeout! Takes to long to get an error...
+                    await _client.ConnectAsync(hostName, port).ConfigureAwait(false);
 
                     return new GenericResult<bool>(true);
                 }

@@ -1,4 +1,5 @@
 ﻿using Serilog;
+using System.Threading.Tasks;
 using TcpClientLib;
 using TcpClientLib.Helpers;
 
@@ -6,7 +7,7 @@ namespace Console
 {
     internal class Program
     {
-        private static void Main(string[] args)
+        private static async Task Main(string[] args)
         {
             Log.Logger = new LoggerConfiguration()
              .MinimumLevel.Debug()
@@ -24,7 +25,7 @@ namespace Console
             client.MainDataReceived += OnClient_MainDataReceived;
 
             //The same host/port as the server
-            client.Connect("localhost", 14000); 
+            await client.ConnectAsync("localhost", 14000); 
 
             if (!client.IsConnected.Value)
             {

@@ -28,7 +28,7 @@ namespace WindowsForms
         }
         private void btnConnectToService_Click(object sender, EventArgs e)
         {
-            client.Connect(txtIpAddress.Text, Convert.ToInt32(txtPort.Text));
+            client.ConnectAsync(txtIpAddress.Text, Convert.ToInt32(txtPort.Text));
 
             // Check if the client failed to connect to the server
             if (!client.IsConnected.Value)
