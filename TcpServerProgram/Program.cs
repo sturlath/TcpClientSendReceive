@@ -2,16 +2,13 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Net;
 using System.Net.Sockets;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 
 namespace TcpServerProgram
 {
-    class Program
+    internal class Program
     {
         private static readonly object _lock = new object();
         private static readonly List<TcpClient> clients = new List<TcpClient>();
@@ -31,66 +28,80 @@ namespace TcpServerProgram
             lock (_lock) clients.Remove(client);
         }
 
-        static void Main(string[] args)
+        private static void Main(string[] args)
         {
-            IPAddress ip = IPAddress.Parse("127.0.0.1");
-            TcpListener ServerSocket = new TcpListener(ip, 14000);
+            Log.Logger = new LoggerConfiguration()
+                .MinimumLevel.Debug()
+                .Enrich.FromLogContext()
+                .WriteTo.Console()
+                .CreateLogger();
+
+
+            var ipAddress = "127.0.0.1";
+            var port = 14000;
+
+            var ip = IPAddress.Parse(ipAddress);
+            var ServerSocket = new TcpListener(ip, port);
             ServerSocket.Start();
 
-            Console.WriteLine("Server started.");
+            Log.Debug("Started Server. Listening on IP:{ip}:{port}", ip, port);
+
             while (true)
             {
                 TcpClient clientSocket = ServerSocket.AcceptTcpClient();
-                Console.WriteLine($"client connected: {clientSocket.Client.RemoteEndPoint}");
+                Log.Debug("Client connected:{remote}", clientSocket.Client.RemoteEndPoint);
+
                 lock (_lock) clients.Add(clientSocket);
-                handleClient client = new handleClient();
-                client.startClient(clientSocket);
-                Log.Debug("Serilog TEST");
-                Console.WriteLine($"{GetClientCount()} clients connected");
+                var client = new HandleClient();
+                client.StartClient(clientSocket);
+                Log.Debug("{count} clients connected", GetClientCount());
             }
         }
     }
 
-    public class handleClient
+    public class HandleClient
     {
-        TcpClient clientSocket;
+        private TcpClient clientSocket;
 
-        public void startClient(TcpClient inClientSocket)
+        public void StartClient(TcpClient inClientSocket)
         {
             this.clientSocket = inClientSocket;
-            Thread ctThread = new Thread(Chat);
+            var ctThread = new Thread(Chat);
             ctThread.Start();
         }
 
         private void Chat()
         {
-            BinaryReader reader = new BinaryReader(clientSocket.GetStream());
+            var reader = new BinaryReader(clientSocket.GetStream());
 
             try
             {
                 while (true)
                 {
-                    string message = reader.ReadString();
-                    foreach (var client in Program.GetClients())
+                    var message = reader.ReadString();
+                    Log.Debug("Server got this message from client: {message}", message);
+
+                    foreach (TcpClient client in Program.GetClients())
                     {
-                        BinaryWriter writer = new BinaryWriter(client.GetStream());
-                        writer.Write("Hi from the Server!");
+                        var writer = new BinaryWriter(client.GetStream());
+                        writer.Write($"Server got your message '{message}'");
                     }
                 }
             }
             catch (EndOfStreamException)
             {
-                Console.WriteLine($"client disconnecting: {clientSocket.Client.RemoteEndPoint}");
+                Log.Error($"client disconnecting: {clientSocket.Client.RemoteEndPoint}");
                 clientSocket.Client.Shutdown(SocketShutdown.Both);
             }
             catch (IOException e)
             {
-                Console.WriteLine($"IOException reading from {clientSocket.Client.RemoteEndPoint}: {e.Message}");
+                Log.Error($"IOException reading from {clientSocket.Client.RemoteEndPoint}: {e.Message}");
+                Console.WriteLine();
             }
 
             clientSocket.Close();
             Program.RemoveClient(clientSocket);
-            Console.WriteLine($"{Program.GetClientCount()} clients connected");
+            Log.Debug("{count} clients connected", Program.GetClientCount());
         }
     }
 }

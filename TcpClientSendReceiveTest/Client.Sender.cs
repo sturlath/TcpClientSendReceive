@@ -1,8 +1,8 @@
 ﻿using Serilog;
 using System;
 using System.Net.Sockets;
-using System.Text;
 using System.Threading;
+using TcpClientSendReceiveTest.Helpers;
 
 namespace TcpClientProgram
 {
@@ -10,19 +10,19 @@ namespace TcpClientProgram
     {
         private sealed class Sender
         {
-            internal void SendData(byte[] data)
+            internal GenericResult<bool> SendData(byte[] data)
             {
                 try
                 {
-                    Log.Debug("Sending data from Client: '{data}'", Encoding.ASCII.GetString(data));
-
                     // transition the data to the thread and send it...
                     _stream.Write(data, 0, data.Length);
+
+                    return new GenericResult<bool>(true);
                 }
                 catch (Exception ex)
                 {
-                    Log.Error(ex, $"Failed while executing Client.Sender.{nameof(SendData)}");
-                    throw;
+                    Log.Error(ex, "Error sending data to server in Client.Sender.{SendData}()", nameof(SendData));
+                    return new GenericResult<bool>(ex);
                 }
             }
 

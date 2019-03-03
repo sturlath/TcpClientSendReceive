@@ -56,7 +56,9 @@
     <Compile Include="Client.Sender.cs">
       <DependentUpon>Client.cs</DependentUpon>
     </Compile>
-    <Compile Include="CustomEventArg.cs" />
+    <Compile Include="Helpers\DataReceivedArgs.cs" />
+    <Compile Include="Helpers\GenericResult.cs" />
+    <Compile Include="Helpers\StateObject.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

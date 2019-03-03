@@ -1,13 +1,11 @@
 ﻿using Serilog;
 using System;
-using System.Diagnostics;
 using System.IO;
 using System.Net.Sockets;
-using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading;
+using TcpClientSendReceiveTest.Helpers;
 
-[assembly: IgnoresAccessChecksTo("System.Diagnostics")]
 namespace TcpClientProgram
 {
     internal sealed partial class Client
@@ -18,8 +16,7 @@ namespace TcpClientProgram
             private readonly byte[] receivebuffer = new byte[receiveBufferSize];
             private static ManualResetEvent ShutdownEvent = new ManualResetEvent(false);
 
-            internal event EventHandler<DataReceivedEventArgs> DataReceived;
-            internal event EventHandler<EventArgs> DataReceivedThatWorks;
+            internal event EventHandler<DataReceivedArgs> DataReceived;
 
             internal Receiver(NetworkStream stream)
             {
@@ -56,16 +53,12 @@ namespace TcpClientProgram
                                 var bytes = _stream.Read(b, 0, b.Length);
                                 var responseData = Encoding.UTF8.GetString(b, 0, bytes);
 
-                                Log.Debug("Got a response from the server: " + responseData);
+                                //Log.Debug("Got a response from the server: " + responseData);
 
                                 // Raise the DataReceived event w/ data...
-                                // HERE I HAVE TRIED ALL KINDS OF WAYS WITHOUT LUCK.
-                                //OnDataReceived(this, new DataReceivedEventArgs(""));
-                                //DataReceived?.Invoke(this, e);
 
-                                //DataReceivedThatWorks?.Invoke(this, EventArgs.Empty);
-
-                                OnDataReceivedThatWorks(this, EventArgs.Empty);
+                                OnDataReceived(this, new DataReceivedArgs(responseData));
+                                //or just  DataReceivedThatWorks?.Invoke(this,  new DataReceivedArgs(responseData));
                             }
                             else
                             {
@@ -76,13 +69,15 @@ namespace TcpClientProgram
                         }
                         catch (IOException ex)
                         {
-                            // Handle the exception...
+                            Log.Error(ex, "Error (IOException) receiving from server");
+                            //TOOD: Do some more handling
                         }
                     }
                 }
                 catch (Exception ex)
                 {
-                    // Handle the exception...
+                    Log.Error(ex, "Error receiving from server");
+                    //TOOD: Do some more handling
                 }
                 finally
                 {
@@ -90,34 +85,13 @@ namespace TcpClientProgram
                 }
             }
 
-
-            internal void OnDataReceived(object sender, DataReceivedEventArgs e)
+            internal void OnDataReceived(object sender, DataReceivedArgs e)
             {
-                //Invoke?
-            }
-
-            internal void OnDataReceivedThatWorks(object sender, EventArgs e)
-            {
-                DataReceivedThatWorks?.Invoke(this, EventArgs.Empty);
+                DataReceived?.Invoke(this, e);
             }
 
             private NetworkStream _stream;
             private Thread _thread;
         }
-    }
-}
-
-//Tried to beet the internal constructor with this  https://www.strathweb.com/2018/10/no-internalvisibleto-no-problem-bypassing-c-visibility-rules-with-roslyn/
-namespace System.Runtime.CompilerServices
-{
-    [AttributeUsage(AttributeTargets.Assembly, AllowMultiple = true)]
-    public class IgnoresAccessChecksToAttribute : Attribute
-    {
-        public IgnoresAccessChecksToAttribute(string assemblyName)
-        {
-            AssemblyName = assemblyName;
-        }
-
-        public string AssemblyName { get; }
     }
 }

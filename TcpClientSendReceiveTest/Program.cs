@@ -1,6 +1,6 @@
 ﻿using Serilog;
-using System.Diagnostics;
 using System.Text;
+using TcpClientSendReceiveTest.Helpers;
 
 namespace TcpClientProgram
 {
@@ -10,35 +10,46 @@ namespace TcpClientProgram
         {
             Log.Logger = new LoggerConfiguration()
              .MinimumLevel.Debug()
-             .Enrich.FromLogContext()
+            .Enrich.FromLogContext()
+             .WriteTo.Console()
              .CreateLogger();
 
+            Log.Debug("Started Client");
+
+            //Give the Server some time to start up
+            System.Threading.Thread.Sleep(1000);
 
             var client = new Client("localhost", 14000);
-            client.MainDataReceived += Client_MainDataReceived;
-            client.MainDataReceivedThatWorks += Client_MainDataReceivedThatWorks;
+            client.MainDataReceived += OnClient_MainDataReceivedThatWorks;
 
-            var data = Encoding.ASCII.GetBytes("Data from CLIENT!");
-
-            do
+            if (!client.IsConnected.Value)
             {
-                client.SendData(data);
+                Log.Debug("Not connected... {ErrorMessage}", client.IsConnected.ErrorMessage);
+                //Do your re-connect etc..
+            }
+
+            //Generate some data
+            for (var i = 0; i < 100; i++)
+            {
+                var data = Encoding.ASCII.GetBytes($"Data from CLIENT number: {i.ToString()} ");
+
+                GenericResult<bool> wasDataSent = client.SendData(data);
+
+                if (wasDataSent.Succeeded)
+                {
+                    //Log.Debug("Data sent to server");
+                }
+                else
+                    Log.Debug("Unsuccessful sending to server: {ErrorMessage}", wasDataSent.ErrorMessage);
 
                 //Sleep and then send some data again
-                System.Threading.Thread.Sleep(3000);
-
-            } while (true);
-
+                System.Threading.Thread.Sleep(600);
+            }
         }
 
-        private static void Client_MainDataReceivedThatWorks(object sender, System.EventArgs e)
+        private static void OnClient_MainDataReceivedThatWorks(object sender, DataReceivedArgs e)
         {
-            Log.Debug("Got some data back in Main().Client_MainDataReceivedThatWorks()");
-        }
-
-        private static void Client_MainDataReceived(object sender, System.Diagnostics.DataReceivedEventArgs e)
-        {
-            Log.Debug("Got some data back in Main().Client_MainDataReceived()");
+            Log.Debug("Data from Server: {data}", e.Data);
         }
     }
 }

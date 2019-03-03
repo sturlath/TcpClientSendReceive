@@ -1,74 +1,78 @@
 ﻿using Serilog;
 using System;
-using System.Diagnostics;
 using System.Net.Sockets;
+using TcpClientSendReceiveTest.Helpers;
 
 namespace TcpClientProgram
 {
     internal sealed partial class Client : IDisposable
     {
         // Called by producers to send data over the socket.
-        public void SendData(byte[] data)
+        public GenericResult<bool> SendData(byte[] data)
         {
-           _sender.SendData(data);
+            try
+            {
+                return _sender.SendData(data);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex, "Error sending data to server in Client.{SendData}()", nameof(SendData));
+                return new GenericResult<bool>(ex);
+            }
         }
 
         // Consumers register to receive data.
-        public event EventHandler<DataReceivedEventArgs> MainDataReceived;
-        public event EventHandler<EventArgs> MainDataReceivedThatWorks;
+        public event EventHandler<DataReceivedArgs> MainDataReceived;
+
+        public GenericResult<bool> IsConnected { get; set; }
 
         public Client(string hostName, int port)
         {
-            IsTcpClientReady(hostName, port);
+            IsConnected = GetTcpClientReady(hostName, port);
 
-            _stream = _client.GetStream();
+            if (IsConnected.Succeeded && IsConnected.Value == true)
+            {
+                _stream = _client.GetStream();
+                _receiver = new Receiver(_stream);
+                _sender = new Sender(_stream);
 
-            _receiver = new Receiver(_stream);
-            _sender = new Sender(_stream);
-
-            _receiver.DataReceived += OnDataReceived;
-            _receiver.DataReceivedThatWorks += OnDataReceivedThatWorks;
+                _receiver.DataReceived += OnDataReceived;
+            }
         }
 
-        private void OnDataReceivedThatWorks(object sender, EventArgs e)
+        private void OnDataReceived(object sender, DataReceivedArgs e)
         {
-            EventHandler<EventArgs> handler = MainDataReceivedThatWorks;
-            if (handler != null) MainDataReceivedThatWorks(this, e);  // re-raise event
-        }
-
-        //This off course doesn't fire because Client.Receiver never triggers the event 
-        private void OnDataReceived(object sender, DataReceivedEventArgs e)
-        {
-            EventHandler<DataReceivedEventArgs> handler = MainDataReceived;
+            EventHandler<DataReceivedArgs> handler = MainDataReceived;
             if (handler != null) MainDataReceived(this, e);  // re-raise event
         }
 
-        private bool IsTcpClientReady(string hostName, int port)
+        private GenericResult<bool> GetTcpClientReady(string hostName, int port)
         {
-            //if (!Network.IsConnected())
-            //    return false;
-
             if (_client == null)
             {
                 _client = new TcpClient();
             }
+
             if (!_client.Client.Connected)
             {
                 try
                 {
                     _client.Connect(hostName, port);
+
+                    return new GenericResult<bool>(true);
                 }
                 catch (Exception ex)
                 {
-                    Log.Debug("Cannot connect to the socket!");
-                    return false;
+                    return new GenericResult<bool>(ex);
                 }
             }
-            return true;
+
+            return new GenericResult<bool>(true);
         }
 
         public void Dispose()
         {
+            //TODO: Dispose
             throw new NotImplementedException();
         }
 
