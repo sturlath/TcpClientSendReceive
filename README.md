@@ -4,10 +4,10 @@ TcpClient comunication client that sends data on one thread and listening on ano
 This is basically a copy of [Matt Davis implementation on StackOverflow](https://stackoverflow.com/a/20698153/1187583) with lots of added stuff.
 
 # Whats in it?
-1. ServerConsole that listens for client communication.
-2. ClienConsole program that sends data to the server and listens for responses.
-3. TcpClientLib that contains all the connection logic.
-4. WinForms project to manually connect and fire data to the server.
+1. **ServerConsole** that listens for client communication.
+2. **ClienConsole** program that sends data to the server and listens for responses.
+3. **TcpClientLib** that contains all the connection logic.
+4. **WinForms** project to manually connect and fire data to the server.
 
 # How to run?
 There are two ways you can run this.
