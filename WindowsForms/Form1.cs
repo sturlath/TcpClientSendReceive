@@ -30,6 +30,7 @@ namespace WindowsForms
         {
             client.Connect(txtIpAddress.Text, Convert.ToInt32(txtPort.Text));
 
+            // Check if the client failed to connect to the server
             if (!client.IsConnected.Value)
             {
                 txbResponseFromServer.AppendText("\r\n" + client.IsConnected.ErrorMessage);
@@ -40,11 +41,14 @@ namespace WindowsForms
 
         private void OnClient_MainDataReceived(object sender, DataReceivedArgs e)
         {
+            // This never gets called after client.SendData(). 
+            // Probably because of something like https://docs.microsoft.com/en-us/dotnet/api/system.windows.forms.control.invoke?view=netframework-4.7.2
             txbResponseFromServer.AppendText(e.Data);
         }
 
         private void btnSendData_Click(object sender, EventArgs e)
         {
+            // This call does not fire the MainDataReceived event in WinForms but does in the console app!
             GenericResult<bool> test = client.SendData(txtDataToSend.Text);
         }
     }

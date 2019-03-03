@@ -1,5 +1,4 @@
 ﻿using Serilog;
-using System.Text;
 using TcpClientLib;
 using TcpClientLib.Helpers;
 
