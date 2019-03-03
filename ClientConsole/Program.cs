@@ -15,14 +15,16 @@ namespace Console
              .WriteTo.Console()
              .CreateLogger();
 
-            Log.Debug("Started Client");
+            Log.Debug("Starting up the Client");
 
-            //Give the Server some time to start up
+            // Give the Server some time to start up. Just in case...
             System.Threading.Thread.Sleep(1000);
 
+            // Setup the client
             var client = new Client();
             client.MainDataReceived += OnClient_MainDataReceived;
 
+            //The same host/port as the server
             client.Connect("localhost", 14000); 
 
             if (!client.IsConnected.Value)
@@ -31,7 +33,7 @@ namespace Console
                 //Do your re-connect etc..
             }
 
-            //Generate some data
+            //Generate and send some data
             for (var i = 0; i < 100; i++)
             {
                 var data = $"Data from CLIENT number: {i.ToString()} ";
