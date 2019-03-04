@@ -155,16 +155,6 @@
             this.label2.TabIndex = 13;
             this.label2.Text = "Resonse from the server";
             // 
-            // btnCloseConnection
-            // 
-            this.btnCloseConnection.Location = new System.Drawing.Point(40, 102);
-            this.btnCloseConnection.Name = "btnCloseConnection";
-            this.btnCloseConnection.Size = new System.Drawing.Size(132, 23);
-            this.btnCloseConnection.TabIndex = 12;
-            this.btnCloseConnection.Text = "Close Connection";
-            this.btnCloseConnection.UseVisualStyleBackColor = true;
-            this.btnCloseConnection.Click += new System.EventHandler(this.btnCloseConnection_Click);
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
