@@ -52,9 +52,5 @@ namespace WindowsForms
             GenericResult<bool> test = await client.SendData(txtDataToSend.Text);
         }
 
-        private void btnCloseConnection_Click(object sender, EventArgs e)
-        {
-            client.CloseConnection();
-        }
     }
 }

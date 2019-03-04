@@ -77,11 +77,14 @@ namespace TcpClientLib
                             Succeeded = false,
                             ErrorMessage = $"Timed out connecting in {timeoutSec}sec."
                         };
+
                         return response;
                     }
 
+                    // If this method is run 2x the Client.Connected == true! Why is that? And only in WinForms/Xamarin
+
                     // End a pending asynchronous connection attempt.
-                    _client.EndConnect(result);
+                    // _client.EndConnect(result);
 
                     return new GenericResult<bool>(success);
                 }
