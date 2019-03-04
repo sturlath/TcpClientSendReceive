@@ -1,17 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using Xamarin.Forms;
-using Xamarin.Forms.Xaml;
-
-using TcpClientMobileApp.Models;
-using TcpClientMobileApp.Views;
-using TcpClientMobileApp.ViewModels;
 using TcpClientLib;
 using TcpClientLib.Helpers;
+using TcpClientMobileApp.ViewModels;
+using Xamarin.Forms;
+using Xamarin.Forms.Xaml;
 
 namespace TcpClientMobileApp.Views
 {
@@ -19,7 +11,7 @@ namespace TcpClientMobileApp.Views
     public partial class ItemsPage : ContentPage
     {
         public Client Client;
-        ItemsViewModel viewModel;
+        private ItemsViewModel viewModel;
 
         public ItemsPage()
         {
@@ -31,35 +23,36 @@ namespace TcpClientMobileApp.Views
             Client.MainDataReceived += OnClient_MainDataReceived;
         }
 
-        async void Connect_Clicked(object sender, EventArgs e)
+        private async void Connect_Clicked(object sender, EventArgs e)
         {
-            var connectResponse = await Client.ConnectAsync(entryIPAddress.Text, Convert.ToInt32(entryPort.Text));
+            GenericResult<bool> connectResponse = await Client.ConnectAsync(entryIPAddress.Text, Convert.ToInt32(entryPort.Text));
 
-            if(connectResponse.Succeeded && connectResponse.HasError)
+            if (connectResponse.HasError)
             {
                 await DisplayAlert("Error", connectResponse.ErrorMessage, ":-(");
             }
         }
 
-        async void SendData_Clicked(object sender, EventArgs e)
+        private async void SendData_Clicked(object sender, EventArgs e)
         {
             if (Client.IsConnected)
             {
                 // This gets called but it never fires the MainDataReceived event because _stream.DataAvailable (in Client.Receiver) is never true!
-                var sendResponse = await Client.SendData("TEST DATA");
+                GenericResult<bool> sendResponse = await Client.SendData("TEST DATA");
 
-                if (sendResponse.Succeeded && sendResponse.HasError)
+                if (sendResponse.HasError)
                 {
                     await DisplayAlert("Error", sendResponse.ErrorMessage, ":-(");
                 }
             }
         }
 
-        private async void OnClient_MainDataReceived(object sender, DataReceivedArgs e)
+        private void OnClient_MainDataReceived(object sender, DataReceivedArgs e)
         {
-            //Doesn't happen...
-            await DisplayAlert("Success","Success! It got called!!", ":-)");
-
+            Device.BeginInvokeOnMainThread(() =>
+            {
+                DisplayAlert("Success", $"Received this '{e.Data}' from the server!", ":-)");
+            });
         }
 
     }

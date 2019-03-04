@@ -51,5 +51,10 @@ namespace WindowsForms
             // This call does not fire the MainDataReceived event in WinForms but does in the console app!
             GenericResult<bool> test = await client.SendData(txtDataToSend.Text);
         }
+
+        private void btnCloseConnection_Click(object sender, EventArgs e)
+        {
+            client.CloseConnection();
+        }
     }
 }

@@ -7,12 +7,13 @@
 
 	<ContentPage.ToolbarItems>
 		<ToolbarItem Text="Connect" Clicked="Connect_Clicked"/>
-		<ToolbarItem Text="SendData" Clicked="SendData_Clicked"/>
+		<!--<ToolbarItem Text="Close" Clicked="CloseConnection_Clicked"/>-->
+		<ToolbarItem Text="Send" Clicked="SendData_Clicked"/>
 	</ContentPage.ToolbarItems>
 
 	<StackLayout>
 		<Label Text="IP" />
-		<Entry x:Name="entryIPAddress" Placeholder="IP Address" />
+		<Entry x:Name="entryIPAddress" Placeholder="IP Address" Text="GRBPC4216" />
 
 		<Label Text="PORT" />
 		<Entry x:Name="entryPort" Placeholder="Port"  Text="14000"/>

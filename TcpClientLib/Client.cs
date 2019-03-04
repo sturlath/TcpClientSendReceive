@@ -34,11 +34,11 @@ namespace TcpClientLib
         {
         }
 
-        public async Task<GenericResult<bool>> ConnectAsync(string hostName, int port)
+        public async Task<GenericResult<bool>> ConnectAsync(string hostName, int port, int timeoutSec = 1)
         {
-            var readyResponse = await GetTcpClientReadyAsync(hostName, port).ConfigureAwait(false);
+            GenericResult<bool> readyResponse = await GetTcpClientReadyAsync(hostName, port, timeoutSec).ConfigureAwait(false);
 
-            if (_client.Connected)
+            if (!readyResponse.HasError && _client.Connected)
             {
                 _stream = _client.GetStream();
                 _receiver = new Receiver(_stream);
@@ -56,7 +56,7 @@ namespace TcpClientLib
             if (handler != null) MainDataReceived(this, e);  // re-raise event
         }
 
-        private async Task<GenericResult<bool>> GetTcpClientReadyAsync(string hostName, int port)
+        private async Task<GenericResult<bool>> GetTcpClientReadyAsync(string hostName, int port, int timeoutSec)
         {
             if (_client == null)
             {
@@ -67,10 +67,23 @@ namespace TcpClientLib
             {
                 try
                 {
-                    //TODO: Shorten timeout! Takes to long to get an error...
-                    await _client.ConnectAsync(hostName, port).ConfigureAwait(false);
+                    IAsyncResult result = _client.BeginConnect(hostName, port, null, null);
+                    var success = result.AsyncWaitHandle.WaitOne(TimeSpan.FromSeconds(timeoutSec));
 
-                    return new GenericResult<bool>(_client.Connected);
+                    if (!success)
+                    {
+                        var response = new GenericResult<bool>
+                        {
+                            Succeeded = false,
+                            ErrorMessage = $"Timed out connecting in {timeoutSec}sec."
+                        };
+                        return response;
+                    }
+
+                    // End a pending asynchronous connection attempt.
+                    _client.EndConnect(result);
+
+                    return new GenericResult<bool>(success);
                 }
                 catch (Exception ex)
                 {
@@ -78,7 +91,7 @@ namespace TcpClientLib
                 }
             }
 
-            return new GenericResult<bool>(_client.Connected);
+            return new GenericResult<bool>(true);
         }
 
         public void Dispose()

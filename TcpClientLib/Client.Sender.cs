@@ -1,5 +1,6 @@
 ﻿using Serilog;
 using System;
+using System.IO;
 using System.Net.Sockets;
 using System.Threading;
 using System.Threading.Tasks;
@@ -20,7 +21,7 @@ namespace TcpClientLib
                     if (_stream.CanWrite)
                     {
                         // transition the data to the thread and send it...
-                        await _stream.WriteAsync(data, 0, data.Length).ConfigureAwait(false);
+                        await WriteWithTimeout(_stream, data, timeoutMs:5000);
                     }
                     else
                     {
@@ -29,6 +30,12 @@ namespace TcpClientLib
                     }
 
                     return response;
+                }
+                catch(TaskCanceledException ex)
+                {
+                    var re = new GenericResult<bool>(ex);
+                    re.ErrorMessage = "Timed out sending to the server. " + re.ErrorMessage;
+                    return re;
                 }
                 catch (Exception ex)
                 {
@@ -47,6 +54,14 @@ namespace TcpClientLib
             private void Run()
             {
                 // main thread loop for sending data...
+            }
+
+            private async Task WriteWithTimeout(Stream os, byte[] buf, int timeoutMs)
+            {
+                CancellationTokenSource tokenSource = new CancellationTokenSource(timeoutMs); // cancel after waitMs milliseconds.
+                var task = os.WriteAsync(buf, 0, buf.Length, tokenSource.Token);
+                var waitedTask = await Task.WhenAny(task, Task.Delay(-1, tokenSource.Token));
+                await waitedTask; //Wait on the returned task to observe any exceptions.
             }
 
             private NetworkStream _stream;

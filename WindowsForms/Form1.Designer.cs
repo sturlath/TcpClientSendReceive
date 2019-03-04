@@ -40,13 +40,14 @@
             this.txtPort = new System.Windows.Forms.TextBox();
             this.panel2 = new System.Windows.Forms.Panel();
             this.label2 = new System.Windows.Forms.Label();
+            this.btnCloseConnection = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             this.SuspendLayout();
             // 
             // btnConnectToService
             // 
-            this.btnConnectToService.Location = new System.Drawing.Point(6, 91);
+            this.btnConnectToService.Location = new System.Drawing.Point(40, 72);
             this.btnConnectToService.Name = "btnConnectToService";
             this.btnConnectToService.Size = new System.Drawing.Size(132, 23);
             this.btnConnectToService.TabIndex = 0;
@@ -134,6 +135,7 @@
             // 
             // panel2
             // 
+            this.panel2.Controls.Add(this.btnCloseConnection);
             this.panel2.Controls.Add(this.txtIpAddress);
             this.panel2.Controls.Add(this.txtPort);
             this.panel2.Controls.Add(this.lblIpAddress);
@@ -152,6 +154,16 @@
             this.label2.Size = new System.Drawing.Size(122, 13);
             this.label2.TabIndex = 13;
             this.label2.Text = "Resonse from the server";
+            // 
+            // btnCloseConnection
+            // 
+            this.btnCloseConnection.Location = new System.Drawing.Point(40, 102);
+            this.btnCloseConnection.Name = "btnCloseConnection";
+            this.btnCloseConnection.Size = new System.Drawing.Size(132, 23);
+            this.btnCloseConnection.TabIndex = 12;
+            this.btnCloseConnection.Text = "Close Connection";
+            this.btnCloseConnection.UseVisualStyleBackColor = true;
+            this.btnCloseConnection.Click += new System.EventHandler(this.btnCloseConnection_Click);
             // 
             // Form1
             // 
@@ -187,6 +199,7 @@
         private System.Windows.Forms.TextBox txtPort;
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Button btnCloseConnection;
     }
 }
 

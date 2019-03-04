@@ -25,6 +25,8 @@ namespace TcpClientLib
                 _thread.Start();
             }
 
+            private bool hasRunOnceTest = false;
+
             private void Run()
             {
                 try
@@ -44,6 +46,14 @@ namespace TcpClientLib
                             // which I always forget to do).
                             if (!_stream.DataAvailable)
                             {
+                                // Just to test if the event can fire for UI
+                                // See ItemsPage.xaml.cs->OnClient_MainDataReceived()
+                                if (!hasRunOnceTest)
+                                {
+                                    OnDataReceived(this, new DataReceivedArgs("Just test data for UI because _stream.DataAvailable is never true for UI!"));
+                                    hasRunOnceTest = true;
+                                }
+
                                 // Give up the remaining time slice.
                                 Thread.Sleep(1);
                             }
@@ -59,7 +69,7 @@ namespace TcpClientLib
                                 // Raise the DataReceived event w/ data...
 
                                 OnDataReceived(this, new DataReceivedArgs(responseData));
-                                //or just  DataReceived?.Invoke(this,  new DataReceivedArgs(responseData));
+                                //or just  DataReceived?.Invoke(this, new DataReceivedArgs(responseData));
                             }
                             else
                             {
