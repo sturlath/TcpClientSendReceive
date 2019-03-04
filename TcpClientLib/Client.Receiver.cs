@@ -47,7 +47,7 @@ namespace TcpClientLib
                                 // Give up the remaining time slice.
                                 Thread.Sleep(1);
                             }
-                            else if (_stream.DataAvailable)
+                            else if (_stream.DataAvailable) // When in Xamarin or WinForms this is never true...
                             {
                                 var b = new byte[1024];
                                 var bytes = _stream.Read(b, 0, b.Length);

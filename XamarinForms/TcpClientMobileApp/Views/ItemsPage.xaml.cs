@@ -45,6 +45,7 @@ namespace TcpClientMobileApp.Views
         {
             if (Client.IsConnected)
             {
+                // This gets called but it never fires the MainDataReceived event because _stream.DataAvailable (in Client.Receiver) is never true!
                 var sendResponse = await Client.SendData("TEST DATA");
 
                 if (sendResponse.Succeeded && sendResponse.HasError)
@@ -56,6 +57,7 @@ namespace TcpClientMobileApp.Views
 
         private async void OnClient_MainDataReceived(object sender, DataReceivedArgs e)
         {
+            //Doesn't happen...
             await DisplayAlert("Success","Success! It got called!!", ":-)");
 
         }
