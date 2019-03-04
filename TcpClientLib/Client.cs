@@ -28,7 +28,7 @@ namespace TcpClientLib
         /// </summary>
         public event EventHandler<DataReceivedArgs> MainDataReceived;
 
-        public bool IsConnected { get { return _client.Connected; } }
+        public bool IsConnected { get { return _client?.Connected ?? false; } }
 
         public Client()
         {
