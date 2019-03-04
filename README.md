@@ -8,7 +8,7 @@ This is basically a copy of [Matt Davis implementation on StackOverflow](https:/
 2. **ClienConsole** program that sends data to the server and listens for responses.
 3. **TcpClientLib** that contains all the connection logic.
 4. **WinForms** project to manually connect and fire data to the server.
-5. **Xamarin.Forms** project where I will be eventually using all of this. [**Still working on this!** Will have something tonight!]
+5. **Xamarin.Forms** project where I will be eventually using all of this. I have the same problem here as in WinForms. [See this code part](https://github.com/sturlath/TcpClientSendReceive/blob/cd868bd2c005b431aa8d8e1663b31ad6cef97c35/XamarinForms/TcpClientMobileApp/Views/ItemsPage.xaml.cs#L48).
 
 # How to run?
 There are two ways you can run this.
