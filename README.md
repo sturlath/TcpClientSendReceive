@@ -19,7 +19,7 @@ There are two ways you can run this.
 # Known problems at the moment
 1. All the data I'm sending to the service gets concatenated into one big (1024 byte) string. This is something I was going to research with the WinForms project.
 
-2. WinForms and Xamarin clients are not able to connect to the service and send or receive data. See my [Bug '[WinForms] Client.Receiver.DataAvailable is never true after SendData '](https://github.com/sturlath/TcpClientSendReceive/issues/1)
+2. WinForms and Xamarin clients are not able to connect to the service and send or receive data. See my [Bug 'NetworkStream seams to be writing to socket but stream.DataAvailable in Reciever is always false'](https://github.com/sturlath/TcpClientSendReceive/issues/3)
 
 ## Want to help me?
 I would **REALLY** appreciate all the help/pointers you can offer!
