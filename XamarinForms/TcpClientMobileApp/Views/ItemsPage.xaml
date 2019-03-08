@@ -13,7 +13,7 @@
 
 	<StackLayout>
 		<Label Text="IP" />
-		<Entry x:Name="entryIPAddress" Placeholder="IP Address" Text="192.168.137.1" />
+		<Entry x:Name="entryIPAddress" Placeholder="IP Address" Text="10.0.2.2" />
 
 		<Label Text="PORT" />
 		<Entry x:Name="entryPort" Placeholder="Port"  Text="14000"/>

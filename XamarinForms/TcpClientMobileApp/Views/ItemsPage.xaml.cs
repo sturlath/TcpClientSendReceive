@@ -37,7 +37,6 @@ namespace TcpClientMobileApp.Views
         {
             if (Client.IsConnected)
             {
-                // This gets called but it never fires the MainDataReceived event because _stream.DataAvailable (in Client.Receiver) is never true!
                 GenericResult<bool> sendResponse = await Client.SendData("TEST DATA");
 
                 if (sendResponse.HasError)
@@ -49,11 +48,12 @@ namespace TcpClientMobileApp.Views
 
         private void OnClient_MainDataReceived(object sender, DataReceivedArgs e)
         {
-            Device.BeginInvokeOnMainThread(() =>
+            Device.BeginInvokeOnMainThread(async () =>
             {
-                DisplayAlert("Success", $"Received this '{e.Data}' from the server!", ":-)");
+                // This gets called but it never fires the MainDataReceived event because _stream.DataAvailable (in Client.Receiver) is never true!
+                // Except once just to show that this code works.
+                await DisplayAlert("Success", $"Received this '{e.Data}' from the server!", ":-)");
             });
         }
-
     }
 }
