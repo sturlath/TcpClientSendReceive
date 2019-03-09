@@ -62,6 +62,8 @@ namespace TcpServerProgram
     public class HandleClient
     {
         private TcpClient clientSocket;
+        private static int bufferLength = 1024;
+        private byte[] readBuffer = new byte[bufferLength];
 
         public void StartClient(TcpClient inClientSocket)
         {
@@ -72,20 +74,26 @@ namespace TcpServerProgram
 
         private void Chat()
         {
-            var reader = new BinaryReader(clientSocket.GetStream());
+            var reader = clientSocket.GetStream();
 
             try
             {
                 while (true)
                 {
-                    var message = reader.ReadString();
+                    var bytesRead = reader.Read(readBuffer, 0, bufferLength);
 
-                    Log.Debug("Server got this message from client: {message}", message);
-
-                    foreach (TcpClient client in Program.GetClients())
+                    using (var memoryStream = new MemoryStream())
                     {
-                        var writer = new BinaryWriter(client.GetStream());
-                        writer.Write($"Server got your message '{message}'");
+                        memoryStream.Write(readBuffer, 0, bytesRead);
+                        var message = System.Text.Encoding.ASCII.GetString(memoryStream.ToArray());
+
+                        Log.Debug("Server got this message from client: {message}", message);
+
+                        foreach (TcpClient client in Program.GetClients())
+                        {
+                            var writer = new BinaryWriter(client.GetStream());
+                            writer.Write($"Server got your message '{message}'");
+                        }
                     }
                 }
             }
